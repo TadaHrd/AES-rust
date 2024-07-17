@@ -1,0 +1,16 @@
+[package]
+name = "aes_rust"
+version = "0.1.0"
+edition = "2021"
+authors = ["TadaHrd"]
+repository = "https://github.com/TadaHrd/AES-rust"
+readme = "README.md"
+documentation = "https://tadahrd.github.io/AES-rust"
+description = "Arsenal of Encosure Schmes (AES) - Rust (AESr)"
+
+[lib]
+name = "aes_rust"
+path = "lib/lib.rs"
+
+[dependencies]
+cli_select = "0.1.6"

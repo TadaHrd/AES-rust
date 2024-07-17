@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Anyway Encosure Scheme (AES)"><title>aes_rust::anyway - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="aes_rust" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../aes_rust/index.html">aes_rust</a><span class="version">0.1.0</span></h2></div><h2 class="location"><a href="#">Module anyway</a></h2><div class="sidebar-elems"><section><ul class="block"><li><a href="#functions">Functions</a></li></ul></section><h2><a href="../index.html">In crate aes_rust</a></h2></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../aes_rust/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../index.html">aes_rust</a>::<wbr><a class="mod" href="#">anyway</a><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><span class="out-of-band"><a class="src" href="../../src/aes_rust/anyway.rs.html#1-292">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="anyway-encosure-scheme-aes"><a class="doc-anchor" href="#anyway-encosure-scheme-aes">§</a>Anyway Encosure Scheme (AES)</h2>
+<p>This encosure scheme uses the word “anyway” with formatting to store data.</p>
+<p>Bits in bytes are talked about as LSb to MSb.
+This means that the 1’s place bit is bit 0 and the 128’s place bit is bit 7.
+Byte sequences start with the MSb first.</p>
+<p>Every byte has 2 parts:</p>
+<ul>
+<li>A tail (bits 0-1)</li>
+<li>A body (bits 2-7)</li>
+</ul>
+<p>The tail dictates how many stars come before and after the body.</p>
+<div><table><thead><tr><th>bit 0</th><th>bit 1</th><th>prefix</th><th>suffix</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td></td><td></td></tr>
+<tr><td>1</td><td>0</td><td>*</td><td>*</td></tr>
+<tr><td>0</td><td>1</td><td>**</td><td>**</td></tr>
+<tr><td>1</td><td>1</td><td>***</td><td>***</td></tr>
+</tbody></table>
+</div>
+<p>The body dictates the case of the letters in the word “anyway”.</p>
+<div><table><thead><tr><th>bit</th><th>case</th></tr></thead><tbody>
+<tr><td>0</td><td>uppercase</td></tr>
+<tr><td>1</td><td>lowercase</td></tr>
+</tbody></table>
+</div>
+<p>The bits control each letter like this:</p>
+<div><table><thead><tr><th>letter</th><th>bit</th></tr></thead><tbody>
+<tr><td>A</td><td>2</td></tr>
+<tr><td>N</td><td>3</td></tr>
+<tr><td>Y</td><td>4</td></tr>
+<tr><td>W</td><td>5</td></tr>
+<tr><td>A</td><td>6</td></tr>
+<tr><td>Y</td><td>7</td></tr>
+</tbody></table>
+</div>
+<p>For example, “A” would be:</p>
+<ul>
+<li>65 in ASCII</li>
+<li>01000001 in binary</li>
+<li>Body: 010000, Tail: 01</li>
+<li>Letters: <code>ANYWaY</code></li>
+<li>Prefix &amp; suffix: <code>*</code></li>
+<li>Encoded as <code>*ANYWaY*</code></li>
+</ul>
+<h2 id="escaped-aes-eaes"><a class="doc-anchor" href="#escaped-aes-eaes">§</a>Escaped AES (EAES)</h2>
+<p>There is an escaped version of AES that adds escaped stars before and after each word.
+It doesn’t get rid of formatting.</p>
+<p>The decode step should ignore any <code>\*</code> character sequences to work in all places.</p>
+<p>This is done to make this easily copyable from places that use markdown formatting (like Discord).</p>
+<p>For example, “A” would be:</p>
+<ul>
+<li>Encoded in AES as <code>*ANYWaY*</code></li>
+<li>Escape the stars: <code>*ANYWaY*</code> -&gt; <code>\**ANYWaY*\*</code></li>
+</ul>
+<h3 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h3><h4 id="hello-world"><a class="doc-anchor" href="#hello-world">§</a>Hello, world!</h4>
+<p>The string “Hello, world!” would look like:</p>
+<div class="example-wrap"><pre class="language-text"><code>H: AnYWaY
+e: *aNYwaY*
+l: anYwaY
+l: anYwaY
+o: ***anYwaY***
+,: anYwAY
+ : ANYwAY
+w: ***aNywaY***
+o: ***anYwaY***
+r: **ANywaY**
+l: anYwaY
+d: aNYwaY
+!: *ANYwAY*
+</code></pre></div>
+<p>Here’s how it would look like in EAES:</p>
+<div class="example-wrap"><pre class="language-text"><code>H: AnYWaY
+e: \**aNYwaY*\*
+l: anYwaY
+l: anYwaY
+o: \*\*\****anYwaY***\*\*\*
+,: anYwAY
+ : ANYwAY
+w: \*\*\****aNywaY***\*\*\*
+o: \*\*\****anYwaY***\*\*\*
+r: \*\***ANywaY**\*\*
+l: anYwaY
+d: aNYwaY
+!: \**ANYwAY*\*
+</code></pre></div>
+<p>The characters at the start of every row aren’t present in actual encoded data.</p>
+</div></details><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="fn" href="fn.check_separator.html" title="fn aes_rust::anyway::check_separator">check_separator</a></div><div class="desc docblock-short">Checks if the input would be a valid separator for AES.</div></li><li><div class="item-name"><a class="fn" href="fn.decode.html" title="fn aes_rust::anyway::decode">decode</a></div><div class="desc docblock-short">Decodes AES and EAES to a vector.</div></li><li><div class="item-name"><a class="fn" href="fn.decode_to_string.html" title="fn aes_rust::anyway::decode_to_string">decode_to_string</a></div><div class="desc docblock-short">Decodes AES and EAES to a string.</div></li><li><div class="item-name"><a class="fn" href="fn.encode.html" title="fn aes_rust::anyway::encode">encode</a></div><div class="desc docblock-short">Encodes input (in bytes) to AES.</div></li><li><div class="item-name"><a class="fn" href="fn.encode_escape.html" title="fn aes_rust::anyway::encode_escape">encode_escape</a></div><div class="desc docblock-short">Encodes input (in bytes) to AES or EAES depending on if <code>escape</code> is true.</div></li><li><div class="item-name"><a class="fn" href="fn.encode_escaped.html" title="fn aes_rust::anyway::encode_escaped">encode_escaped</a></div><div class="desc docblock-short">Encodes input (in bytes) to EAES.</div></li></ul></section></div></main></body></html>
