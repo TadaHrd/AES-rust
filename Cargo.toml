@@ -1,11 +1,11 @@
 [package]
 name = "aes_rust"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2021"
 authors = ["TadaHrd"]
 repository = "https://github.com/TadaHrd/AES-rust"
 readme = "README.md"
-documentation = "https://tadahrd.github.io/AES-rust/aes-rust"
+documentation = "https://tadahrd.github.io/AES-rust/aes_rust"
 description = "Arsenal of Encosure Schmes (AES) - Rust (AESr)"
 license = "MIT"
 
